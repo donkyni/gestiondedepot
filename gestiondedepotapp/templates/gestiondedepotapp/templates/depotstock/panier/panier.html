@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Achat-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-achat %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Panier des dépots</b>
+{% endblock %}
+
+{% block position2 %}
+Panier des dépots
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'tabledepotstock' %}" class="btn btn-outline-secondary text-bold">
+            retour vers stock produit
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="card">
+                    <div class="card-header text-center text-bold">
+                        <span class="">Enrégistrer le nombre total de casier emporter pour l'achat</span>
+                        <span style="font-size:15px;font-style:italic;color:red;text-transform:uppercase" class="float-right">** A saisir qu'une seule fois lors d'un enrégistrement de produit *</span>
+                    </div>
+                    <div class="card-body card-block">
+                        <form method="post" style="font-size:15px;color:#130f40">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ u_form.bb_12|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ u_form.bb_24|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ u_form.snb_12|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ u_form.snb_24|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-actions form-group col-6"></div>
+                                <div class="form-actions form-group col-6">
+                                    <button type="submit" class="text-bold btn btn-block btn-info">
+                                        Enrégistrer les informations &nbsp;&nbsp; <i class="fas fa-table"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-12">
+                <div class="card">
+                    <div class="card-header text-center"><small style="font-size:15px"><b>Panier des dépots de produits</b></small></div>
+                    <div class="card-body card-block">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0"></div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.no_facture|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.fournisseur|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.parametreprixachatstockproduit|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.quantitedepotstockproduit|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.site|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.casierperdu|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.produitperdu|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.casiercasse|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ form.produitcasse|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-actions form-group">
+                                <button type="submit" class="text-bold btn btn-block btn-primary">
+                                    Enrégistrer les informations &nbsp;&nbsp; <i class="fas fa-table"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <small style="font-size:15px"><b>Données saisies</b></small>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="table-responsive">
+                            <span class="text-muted text-bold" style="font-size:17px">
+                                Total :&nbsp;&nbsp;
+                                <input class="form-group col-md-3 mb-0 text-bold text-right" disabled type="text" value="{{total}}">
+                            </span>
+                            <table style="font-style:italic" class="table table-bordered table-striped" id="table-panier" width="100%" cellspacing="0">
+                                <thead>
+                                <tr class="text-center" style="text-transform:uppercase">
+                                    <th width="5%">Id</th>
+                                    <th>Fournisseur</th>
+                                    <th>Produit</th>
+                                    <th>Dépot</th>
+                                    <th>Montant</th>
+                                    <th>Casier</th>
+                                    <th>Site</th>
+                                    <th class="text-center" style="width:5%">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for panier in paniers %}
+                                <tr>
+                                    <td>{{panier.id}}</td>
+                                    <td>{{panier.fournisseur}}</td>
+                                    <td>{{panier.parametreprixachatstockproduit.produit}}</td>
+                                    <td>{{panier.quantitedepotstockproduit}}</td>
+                                    <td>{{panier.montantdepotstockproduit}}</td>
+                                    <td>{{panier.nombrecasierequivalentdepotstockproduit}}</td>
+                                    <td>{{panier.site}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm show-form-update" data-url="">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm show-form-delete" data-url="">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="8" style="background:#FFF;color:#000;text-align:center;font-weight:700">Panier vide.</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                <!--
+                                <tfoot>
+                                <tr class="text-center" style="text-transform:uppercase">
+                                    <th>emballage</th>
+                                    <th>Quantité emballage</th>
+                                    <th>Montant emballage</th>
+                                    <th>Quantité restant</th>
+                                    <th>Montant restant</th>
+                                    <th>Date</th>
+                                    <th class="text-center" style="width:5%">Action</th>
+                                </tr>
+                                </tfoot>
+                                -->
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="forms-actions form-group">
+                            <a class="btn btn-block btn-success text-bold" href="{% url 'tabledepotstock' %}">
+                                Valider le panier &nbsp;&nbsp;<i class="fas fa-check"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-panier').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+    $('select').selectpicker();
+</script>
+<script>
+    jQuery(document).ready(function() {
+        jQuery(".standardSelect").chosen({
+            disable_search_threshold: 10,
+            no_results_text: "Oops, nothing found!",
+            width: "100%"
+        });
+    });
+</script>
+<script>
+    // Material Select Initialization
+    $(document).ready(function() {
+    $('.mdb-select').materialSelect();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-param %}
+menu-open
+{% endblock %}
+
+{% block active-param %}
+active
+{% endblock %}
+
+{% block active-categorie %}
+active
+{% endblock %}
+
+{% block position1 %}
+Catégorie
+{% endblock %}
+
+{% block position2 %}
+Catégorie
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-primary show-form" data-url="{% url 'ajoutercategorie' %}">
+      <b>Ajouter une catégorie</b>
+    </button>
+    <br><br>
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des catégories</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="table-categorie" width="100%" cellspacing="0">
+            <thead>
+            <tr class="text-center" style="text-transform:uppercase">
+              <th>Libelle</th>
+              <th>Date de création</th>
+              <th class="text-center" style="width:20%">Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="text-center" style="text-transform:uppercase">
+              <th>Libelle</th>
+              <th>Date de création</th>
+              <th class="text-center">Action</th>
+            </tr>
+            </tfoot>
+            <tbody class="text-center">
+            {% include "gestiondedepotapp/templates/categorie/listecategorie.html" %}
+            </tbody>
+          </table>
+
+          <!-- Popup ajouter nouvelle categorie -->
+          <div class="modal fade" id="modal-categorie">
+            <div class="modal-dialog">
+              <div class="modal-content"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalcategorie.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-categorie').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

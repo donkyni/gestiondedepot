@@ -1,0 +1,20 @@
+{% for categorie in categories %}
+<tr>
+  <td>{{categorie.libellecategorieproduit}}</td>
+  <td>{{categorie.datecreationcategorieproduit}}</td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifiercategorie' categorie.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimercategorie' categorie.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="5" style="background:lightblue;text-align:center;font-weight:700">Aucune catégorie de produit n'est disponible pour le moment !</td>
+</tr>
+{% endfor %}

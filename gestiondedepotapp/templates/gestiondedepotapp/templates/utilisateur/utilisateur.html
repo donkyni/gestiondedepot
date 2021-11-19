@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-param %}
+menu-open
+{% endblock %}
+
+{% block active-param %}
+active
+{% endblock %}
+
+{% block active-user %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Utilisateur</b>
+{% endblock %}
+
+{% block position2 %}
+Utilisateur
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-primary show-form" data-url="{% url 'ajouterutilisateur' %}">
+            <b>Ajouter un utilisateur &nbsp;</b>
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="float-right">
+            <a type="button" class="btn btn-outline-info show-form mr-3" href="{% url 'droit' %}">
+                <b>Gestion des droits</b>
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a type="button" class="btn btn-outline-success show-form float-right" href="{% url 'profil' %}">
+                <b>Gestion des profils</b>
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </div>
+        <br><br>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des utilisateurs</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table-utilisateur" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Pseudo</th>
+                            <th>Nom</th>
+                            <th>Adresse</th>
+                            <th>Téléphone</th>
+                            <th>Genre</th>
+                            <th>Profil</th>
+                            <th>Date de création</th>
+                            <th>Etat du compte</th>
+                            <th class="text-center" style="width:15%">Action</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Pseudo</th>
+                            <th>Nom</th>
+                            <th>Adresse</th>
+                            <th>Téléphone</th>
+                            <th>Genre</th>
+                            <th>Profil</th>
+                            <th>Date de création</th>
+                            <th>Etat du compte</th>
+                            <th class="text-center" style="width:15%">Action</th>
+                        </tr>
+                        </tfoot>
+                        <tbody class="text-center">
+                        {% include "gestiondedepotapp/templates/utilisateur/listeutilisateur.html" %}
+                        </tbody>
+                    </table>
+
+                    <!-- Popup ajouter nouvelle categorie -->
+                    <div class="modal fade" id="modal-utilisateur" data-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-center">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+    $('select').selectpicker();
+</script>
+<script>
+    jQuery(document).ready(function() {
+        jQuery(".standardSelect").chosen({
+            disable_search_threshold: 10,
+            no_results_text: "Oops, nothing found!",
+            width: "100%"
+        });
+    });
+</script>
+<script>
+    // Material Select Initialization
+    $(document).ready(function() {
+    $('.mdb-select').materialSelect();
+    });
+</script>
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalutilisateur.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-utilisateur').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

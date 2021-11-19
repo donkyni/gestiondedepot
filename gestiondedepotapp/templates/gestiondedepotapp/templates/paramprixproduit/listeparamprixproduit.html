@@ -1,0 +1,23 @@
+{% for paramprixproduit in paramprixproduits %}
+<tr>
+  <td>{{paramprixproduit.produit.libelleproduit}}</td>
+  <td>{{paramprixproduit.produit.formatproduit}}</td>
+  <td>{{paramprixproduit.detailprixproduit}}</td>
+  <td>{{paramprixproduit.prixparametreprixachatstockproduit}}</td>
+  <td>{{paramprixproduit.datecreationparametreprixachatstockproduit}}</td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifierparamprixproduit' paramprixproduit.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerparamprixproduit' paramprixproduit.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="5" style="background:lightblue;text-align:center;font-weight:700">Aucun paramètre de prix n'est disponible pour le moment !</td>
+</tr>
+{% endfor %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+gestion-des-parametre-de-prix-de-vente
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-param %}
+menu-open
+{% endblock %}
+
+{% block active-param %}
+active
+{% endblock %}
+
+{% block active-paramprixvente %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Gestion des parmètre de prix de vente</b>
+{% endblock %}
+
+{% block position2 %}
+Gestion des parmètre de prix de vente
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <button type="button" class="btn btn-primary show-form" data-url="{% url 'ajouterparamprixvente' %}">
+            <b>
+                Ajouter un prix&nbsp;
+                <i class="fas fa-plus"></i>
+            </b>
+        </button>
+        <br><br>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des paramètre de prix de vente</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table-paramprixvente" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Produit</th>
+                            <th>Détail prix</th>
+                            <th>Prix réelle</th>
+                            <th>Prix arrondi</th>
+                            <th>Remise</th>
+                            <th>Date de création</th>
+                            <th class="text-center" style="width:20%">Action</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Produit</th>
+                            <th>Détail prix</th>
+                            <th>Prix réelle</th>
+                            <th>Prix arrondi</th>
+                            <th>Remise</th>
+                            <th>Date de création</th>
+                            <th class="text-center" style="width:20%">Action</th>
+                        </tr>
+                        </tfoot>
+                        <tbody class="text-center">
+                        {% include "gestiondedepotapp/templates/paramprixvente/listeparamprixvente.html" %}
+                        </tbody>
+                    </table>
+
+                    <!-- Popup ajouter nouvelle categorie -->
+                    <div class="modal fade" id="modal-paramprixvente">
+                        <div class="modal-dialog">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/dist/js/paramprixvente.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-paramprixvente').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+    $('select').selectpicker();
+</script>
+<script>
+    jQuery(document).ready(function() {
+        jQuery(".standardSelect").chosen({
+            disable_search_threshold: 10,
+            no_results_text: "Oops, nothing found!",
+            width: "100%"
+        });
+    });
+</script>
+<script>
+    // Material Select Initialization
+    $(document).ready(function() {
+    $('.mdb-select').materialSelect();
+    });
+</script>
+{% endblock %}

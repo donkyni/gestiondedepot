@@ -1,0 +1,122 @@
+{% for utilisateur in utilisateurs %}
+{% if request.user == utilisateur %}
+<tr class="table-danger">
+    <td>{{utilisateur.pseudo}}</td>
+    <td>{{utilisateur}}</td>
+    <td>{{utilisateur.adresse}}</td>
+    <td>
+        {% if utilisateur.telephone is Null %}
+        <span>Non précisé</span>
+        {% elif utilisateur.telephone is not Null %}
+        {{utilisateur.telephone}}
+        {% endif %}
+    </td>
+    <td>
+        {% if utilisateur.sexe is Null %}
+        <span>Non précisé</span>
+        {% elif utilisateur.telephone is not Null %}
+        {{utilisateur.sexe}}
+        {% endif %}
+    </td>
+    <td>
+        {% if utilisateur.profil.nom == "Administrateur" %}
+        <span class="badge badge-success">{{utilisateur.profil}}</span>
+        {% else %}
+        <span class="badge badge-primary">{{utilisateur.profil}}</span>
+        {% endif %}
+    </td>
+    <td>{{utilisateur.date_d_ajout}}</td>
+    <td>
+        {% if utilisateur.is_active %}
+        <span class="badge badge-success" style="font-size:14px">Activé</span>
+        {% endif %}
+        {% if not utilisateur.is_active %}
+        <span class="badge badge-danger">Désactivé</span>
+        {% endif %}
+    </td>
+    <td class="">
+        {% if request.user == utilisateur %}
+        <button disabled title="Vous ne pouvez pas vous supprimez" type="button" class="btn btn-info btn-sm show-form-update" data-url="{% url 'modifierutilisateur' utilisateur.id %}">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button disabled title="Vous ne pouvez pas vous supprimez" type="button" class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerutilisateur' utilisateur.id %}">
+            <i class="fas fa-trash"></i>
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-info btn-sm show-form-update" data-url="{% url 'modifierutilisateur' utilisateur.id %}">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerutilisateur' utilisateur.id %}">
+            <i class="fas fa-trash"></i>
+        </button>
+        {% endif %}
+    </td>
+</tr>
+{% elif request.user is not utilisateur %}
+<tr>
+    <td>{{utilisateur.pseudo}}</td>
+    <td>{{utilisateur}}</td>
+    <td>{{utilisateur.adresse}}</td>
+    <td>
+        {% if utilisateur.telephone is Null %}
+        <span>Non précisé</span>
+        {% elif utilisateur.telephone is not Null %}
+        {{utilisateur.telephone}}
+        {% endif %}
+    </td>
+    <td>
+        {% if utilisateur.sexe is Null %}
+        <span>Non précisé</span>
+        {% elif utilisateur.telephone is not Null %}
+        {{utilisateur.sexe}}
+        {% endif %}
+    </td>
+    <td>
+        {% if utilisateur.profil.nom == "Administrateur" %}
+        <span class="badge badge-success">{{utilisateur.profil}}</span>
+        {% else %}
+        <span class="badge badge-primary">{{utilisateur.profil}}</span>
+        {% endif %}
+    </td>
+    <td>{{utilisateur.date_d_ajout}}</td>
+    <td>
+        {% if utilisateur.is_active %}
+        <span class="badge badge-success" style="font-size:14px">Activé</span>
+        {% endif %}
+        {% if not utilisateur.is_active %}
+        <span class="badge badge-danger">Désactivé</span>
+        {% endif %}
+    </td>
+    {% if utilisateur.is_active %}
+    <td class="">
+        {% if request.user == utilisateur %}
+        <button disabled title="Vous ne pouvez pas vous supprimez" type="button" class="btn btn-info btn-sm show-form-update" data-url="{% url 'modifierutilisateur' utilisateur.id %}">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button disabled title="Vous ne pouvez pas vous supprimez" type="button" class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerutilisateur' utilisateur.id %}">
+            <i class="fas fa-trash"></i>
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-info btn-sm show-form-update" data-url="{% url 'modifierutilisateur' utilisateur.id %}">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerutilisateur' utilisateur.id %}">
+            <i class="fas fa-trash"></i>
+        </button>
+        {% endif %}
+    </td>
+    {% elif not utilisateur.is_active %}
+    <td class="">
+        <button type="button" class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'activezutilisateur' utilisateur.id %}">
+            <i class="fas fa-edit"></i>
+            &nbsp;Activez ce compte
+        </button>
+    </td>
+    {% endif %}
+</tr>
+{% endif %}
+{% empty %}
+<tr>
+    <td colspan="8" class="text-center bg-primary" style="font-weight:bold;font-size:15px">Aucun utilisateur n'est disponible</td>
+</tr>
+{% endfor %}

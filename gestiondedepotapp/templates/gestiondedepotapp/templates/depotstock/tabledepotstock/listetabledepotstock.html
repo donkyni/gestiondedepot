@@ -1,0 +1,26 @@
+{% for tabledepotstock in tabledepotstocks %}
+<tr style="font-size:18px">
+  <td>{{tabledepotstock.parametreprixachatstockproduit.produit}}</td>
+  <td>{{tabledepotstock.quantitedepotstockproduit}}</td>
+  <td>{{tabledepotstock.montantdepotstockproduit}}</td>
+  <td>{{tabledepotstock.nombrecasierequivalentdepotstockproduit}}</td>
+  <td>{{tabledepotstock.quantiterestantdepotstockproduit}}</td>
+  <td>{{tabledepotstock.montantrestantdepotstockproduit}}</td>
+  <td>{{tabledepotstock.nombrecasierequivalentrestantdepotstockproduit}}</td>
+  <td>{{tabledepotstock.datecreationdepotstockproduit}}</td>
+  <td>
+    <button class="btn btn-info btn-sm show-form-update" data-url="{% url 'modifiertabledepotstock' tabledepotstock.id %}">
+      <i class="fas fa-pencil-alt"></i>
+
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimertabledepotstock' tabledepotstock.id %}">
+      <i class="fas fa-trash-alt"></i>
+
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="9" style="background:lightblue;text-align:center;font-weight:700">Pas de stock pour le moment. Ajoutez des produits, ils apparaîtrons ici !</td>
+</tr>
+{% endfor %}

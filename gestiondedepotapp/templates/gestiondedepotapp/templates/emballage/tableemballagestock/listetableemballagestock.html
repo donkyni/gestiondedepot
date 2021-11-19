@@ -1,0 +1,24 @@
+{% for tableemballagestock in tableemballagestocks %}
+<tr style="font-size:18px">
+  <td>{{tableemballagestock.parametreprixemballage.emballage}}</td>
+  <td>{{tableemballagestock.quantitedepotstockemballage}}</td>
+  <td>{{tableemballagestock.montantdepotstockemballage}}</td>
+  <td>{{tableemballagestock.quantiterestantdepotstockemballage}}</td>
+  <td>{{tableemballagestock.montantrestantdepotstockemballage}}</td>
+  <td>{{tableemballagestock.datecreationdepotstockemballage}}</td>
+  <td>
+    <button class="btn btn-info btn-sm show-form-update" data-url="">
+      <i class="fas fa-pencil-alt"></i>
+
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="">
+      <i class="fas fa-trash-alt"></i>
+
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="9" style="background:lightblue;text-align:center;font-weight:700">Pas de stock d'emballage pour le moment. Ajoutez-en, ils apparaîtrons ici !</td>
+</tr>
+{% endfor %}

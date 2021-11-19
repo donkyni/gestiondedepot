@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+depot-generale-des-produits
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-vente %}
+menu-open
+{% endblock %}
+
+{% block active-gest-vente %}
+active
+{% endblock %}
+
+{% block active-vente %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Dépôt générale des produits</b>
+{% endblock %}
+
+{% block position2 %}
+Dépôt générale des produits
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'paniervente' %}" class="btn btn-outline-secondary text-bold">
+            <i class="fas fa-angle-left"></i>
+            retour
+        </a>
+        <br><br>
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <small style="font-size:15px"><b>Dépôt générale des produits</b></small>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="table-responsive">
+                            <table style="font-style:italic" class="table table-bordered table-striped" id="table-panier" width="100%" cellspacing="0">
+                                <thead>
+                                <tr class="text-center" style="text-transform:uppercase">
+                                    <th width="5%">Id</th>
+                                    <th>Produit</th>
+                                    <th>Format</th>
+                                    <th>Fournisseur</th>
+                                    <th>Dépot</th>
+                                    <th>Montant</th>
+                                    <th>Restant</th>
+                                    <th>Casier</th>
+                                    <th>Site</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for depot in depots %}
+                                <tr>
+                                    <td>{{depot.id}}</td>
+                                    <td>{{depot.parametreprixachatstockproduit.produit.libelleproduit}}</td>
+                                    <td>{{depot.parametreprixachatstockproduit.produit.formatproduit}}</td>
+                                    <td>{{depot.fournisseur}}</td>
+                                    <td>{{depot.quantitedepotstockproduit}}</td>
+                                    <td>{{depot.montantdepotstockproduit}}</td>
+                                    <td>{{depot.quantiterestantdepotstockproduit}}</td>
+                                    <td>{{depot.nombrecasierequivalentdepotstockproduit}}</td>
+                                    <td>{{depot.site}}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" style="background:#FFF;color:#000;text-align:center;font-weight:700">Panier vide.</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalvente.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-depot').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

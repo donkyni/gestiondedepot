@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Tableau de bord
+{% endblock %}
+
+{% block active-dash %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Menu principal</b>
+{% endblock %}
+
+{% block position2 %}
+Menu principal
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">STOCK GENERAL &nbsp; <i class="fas fa-slash"></i> &nbsp; {{site1}} - {{site2}} - {{site3}}</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" id="table-achat" width="100%" cellspacing="0">
+            <thead>
+            <tr class="text-center" style="text-transform:uppercase">
+              <th>Site</th>
+              <th>Gérant du site</th>
+              <th>Total Produits</th>
+              <th>Total Emballages</th>
+            </tr>
+            </thead>
+            <tbody class="text-center" style="font-style:italic;font-size:18px">
+            {% if site1 %}
+            <tr>
+              <td>
+                <a href="{% url 'site1' %}">
+                  <span style="font-size:15px" class="badge badge-secondary">{{site1}}</span> - <span style="text-decoration:underline">{{site1.adressesite}}</span>
+                  <br>
+                  <small style="color:blue">Cliquez pour plus d'informations</small>
+                </a>
+              </td>
+              <td><span style="border-bottom:2px dotted #007BFF">{{site1.gerantsite}}</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalproduitsite1}}</span><span> &nbsp;produits</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalemballagesite1}}</span> <span> &nbsp;type d'emballage</span></td>
+            </tr>
+            {% endif %}
+            {% if site2 %}
+            <tr>
+              <td>
+                <a href="{% url 'site2' %}">
+                  <span style="font-size:15px" class="badge badge-secondary">{{site2}}</span> - <span style="text-decoration:underline">{{site2.adressesite}}</span>
+                  <br>
+                  <small style="color:blue">Cliquez pour plus d'informations</small>
+                </a>
+              </td>
+              <td><span style="border-bottom:2px dotted #007BFF">{{site2.gerantsite}}</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalproduitsite2}}</span><span> &nbsp;produits</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalemballagesite2}}</span> <span> &nbsp;type d'emballage</span></td>
+            </tr>
+            {% endif %}
+            {% if site3 %}
+            <tr>
+              <td>
+                <a href="{% url 'site3' %}">
+                  <span style="font-size:15px" class="badge badge-secondary">{{site3}}</span> - <span style="text-decoration:underline">{{site3.adressesite}}</span>
+                  <br>
+                  <small style="color:blue">Cliquez pour plus d'informations</small>
+                </a>
+              </td>
+              <td><span style="border-bottom:2px dotted #007BFF">{{site3.gerantsite}}</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalproduitsite3}}</span><span> &nbsp;produits</span></td>
+              <td><span style="font-size:15px" class="badge badge-secondary">{{totalemballagesite3}}</span> <span> &nbsp;type d'emballage</span></td>
+            </tr>
+            {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+{% endblock %}

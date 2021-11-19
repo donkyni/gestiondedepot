@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Panier-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-emballage %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Panier de stock</b>
+{% endblock %}
+
+{% block position2 %}
+Panier de stock
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'tableemballagestock' %}" class="btn btn-outline-secondary text-bold">
+            retour vers emballage
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+        <div class="row">
+            <div class="col-lg-5 col-12">
+                <div class="card">
+                    <div class="card-header text-center"><small style="font-size:15px"><b>Panier des emballages</b></small></div>
+                    <div class="card-body card-block">
+                        <form action="" method="post" class="">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="form-actions form-group"><button type="submit" class="text-bold btn btn-block btn-primary">
+                                Enrégistrer les informations &nbsp;&nbsp; <i class="fas fa-table"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <small style="font-size:15px"><b>Informations saisies</b></small>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="table-responsive">
+                            <table style="font-style:italic" class="table table-bordered table-striped" id="table-panier" width="100%" cellspacing="0">
+                                <thead>
+                                <tr class="text-center" style="text-transform:uppercase">
+                                    <th width="5%">Id</th>
+                                    <th>Emballage</th>
+                                    <th>Dépot</th>
+                                    <th>Montant</th>
+                                    <th>Date</th>
+                                    <th class="text-center" style="width:5%">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for panier in paniers %}
+                                <tr>
+                                    <td>{{panier.id}}</td>
+                                    <td>{{panier.parametreprixemballage.emballage}}</td>
+                                    <td>{{panier.quantitedepotstockemballage}}</td>
+                                    <td>{{panier.montantdepotstockemballage}}</td>
+                                    <td>{{panier.datecreationdepotstockemballage}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm show-form-update" data-url="">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm show-form-delete" data-url="">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" style="background:black;color:white;text-align:center;font-weight:700">Panier vide.</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                                <!--
+                                <tfoot>
+                                <tr class="text-center" style="text-transform:uppercase">
+                                    <th>emballage</th>
+                                    <th>Quantité emballage</th>
+                                    <th>Montant emballage</th>
+                                    <th>Quantité restant</th>
+                                    <th>Montant restant</th>
+                                    <th>Date</th>
+                                    <th class="text-center" style="width:5%">Action</th>
+                                </tr>
+                                </tfoot>
+                                -->
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="forms-actions form-group">
+                            <a class="btn btn-block btn-success text-bold" href="{% url 'tableemballagestock' %}">
+                                Valider le panier &nbsp;&nbsp;<i class="fas fa-check"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-panier').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

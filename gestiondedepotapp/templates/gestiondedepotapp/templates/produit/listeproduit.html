@@ -1,0 +1,23 @@
+{% for produit in produits %}
+<tr>
+  <td>{{produit.libelleproduit}}</td>
+  <td>{{produit.formatproduit}}</td>
+  <td>{{produit.contenanceproduit}}</td>
+  <td>{{produit.categorieproduit}}</td>
+  <td>{{produit.datecreationproduit}}</td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifierproduit' produit.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerproduit' produit.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="8" style="background:lightblue;text-align:center;font-weight:700">Aucun produit n'est présent pour le moment !</td>
+</tr>
+{% endfor %}

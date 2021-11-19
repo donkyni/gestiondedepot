@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Achat-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-achat %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Les petits modèls</b>
+{% endblock %}
+
+{% block position2 %}
+Achat de stock &nbsp; / &nbsp; Les petits modèls
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'depotstock' %}" class="btn btn-outline-secondary text-bold">
+            retour
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des produits petits modèls diponibles dans le stock</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="form-row" style="color:#6c5ce7">
+                        <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px">
+                                {% if gerant_site.gerantsite.sexe == "Homme" %}
+                                <i class="fas fa-male"></i>&nbsp;
+                                Gérant :&nbsp;&nbsp;
+                                {% elif gerant_site.gerantsite.sexe == "Femme" %}
+                                <i class="fas fa-female"></i>&nbsp;
+                                Gérante :&nbsp;&nbsp;
+                                {% endif %}
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{request.user}}">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px">
+                                <i class="fas fa-cash-register"></i>&nbsp;
+                                Site :&nbsp;&nbsp;
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{gerant_site}}">
+                            </span>
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px">
+                                <i class="fas fa-wallet"></i>
+                                Total :&nbsp;&nbsp;
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{montantstockpm}}">
+                            </span>
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <table class="table table-bordered table-striped" id="table-petitmodel" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Produit</th>
+                            <th>Quantité dépôt</th>
+                            <th>Montant dépôt</th>
+                            <th>Nombre casier </th>
+                            <th>Quantité restant</th>
+                            <th>Montant restant</th>
+                            <th>Nombre casier restant</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Produit</th>
+                            <th>Quantité dépôt</th>
+                            <th>Montant dépôt</th>
+                            <th>Nombre casier </th>
+                            <th>Quantité restant</th>
+                            <th>Montant restant</th>
+                            <th>Nombre casier restant</th>
+                        </tr>
+                        </tfoot>
+                        <tbody class="text-center">
+                        {% if beaufortpm %}
+                        <tr style="font-size:18px">
+                            <td>{{beaufortpm}}</td>
+                            <td>{{quantitestockbeaufortpm}}</td>
+                            <td>{{montantstockbeaufortpm}}</td>
+                            <td>{{casierstockbeaufortpm}}</td>
+                            <td>{{quantitestockrestantbeaufortpm}}</td>
+                            <td>{{montantstockrestantbeaufortpm}}</td>
+                            <td>{{casierstockrestantbeaufortpm}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if awouyopm %}
+                        <tr style="font-size:18px">
+                            <td>{{awouyopm}}</td>
+                            <td>{{quantitestockawouyopm}}</td>
+                            <td>{{montantstockawouyopm}}</td>
+                            <td>{{casierstockawouyopm}}</td>
+                            <td>{{quantitestockrestantawouyopm}}</td>
+                            <td>{{montantstockrestantawouyopm}}</td>
+                            <td>{{casierstockrestantawouyopm}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if cocapm %}
+                        <tr style="font-size:18px">
+                            <td>{{cocapm}}</td>
+                            <td>{{quantitestockcocapm}}</td>
+                            <td>{{montantstockcocapm}}</td>
+                            <td>{{casierstockcocapm}}</td>
+                            <td>{{quantitestockrestantcocapm}}</td>
+                            <td>{{montantstockrestantcocapm}}</td>
+                            <td>{{casierstockrestantcocapm}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if fantapm %}
+                        <tr style="font-size:18px">
+                            <td>{{fantapm}}</td>
+                            <td>{{quantitestockfantapm}}</td>
+                            <td>{{montantstockfantapm}}</td>
+                            <td>{{casierstockfantapm}}</td>
+                            <td>{{quantitestockrestantfantapm}}</td>
+                            <td>{{montantstockrestantfantapm}}</td>
+                            <td>{{casierstockrestantfantapm}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if lagerpm %}
+                        <tr style="font-size:18px">
+                            <td>{{lagerpm}}</td>
+                            <td>{{quantitestocklagerpm}}</td>
+                            <td>{{montantstocklagerpm}}</td>
+                            <td>{{casierstocklagerpm}}</td>
+                            <td>{{quantitestockrestantlagerpm}}</td>
+                            <td>{{montantstockrestantlagerpm}}</td>
+                            <td>{{casierstockrestantlagerpm}}</td>
+                        </tr>
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-petitmodel').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Gestion-des-emballages
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-emballage %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Emballages</b>
+{% endblock %}
+
+{% block position2 %}
+Emballages
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+  <div class="container-fluid">
+    <a href="{% url 'paramembal' %}" class="btn btn-outline-secondary text-bold">
+      retour
+      <i class="fas fa-angle-right"></i>
+    </a>
+    <button type="button" class="btn btn-primary show-form" data-url="{% url 'ajouterembal' %}">
+      <b>Ajouter un emballage</b>
+    </button>
+    <br><br>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des emballages</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="table-embal" width="100%" cellspacing="0">
+            <thead>
+            <tr class="text-center" style="text-transform:uppercase">
+              <th>Libelle</th>
+              <th>Format</th>
+              <th>type</th>
+              <th>Date de création</th>
+              <th>Date de modification</th>
+              <th>Etat de l'emballage</th>
+              <th class="text-center" style="width:20%">Action</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="text-center" style="text-transform:uppercase">
+              <th>Libelle</th>
+              <th>Format</th>
+              <th>type</th>
+              <th>Date de création</th>
+              <th>Date de modification</th>
+              <th>Etat de l'emballage</th>
+              <th class="text-center" style="width:20%">Action</th>
+            </tr>
+            </tfoot>
+            <tbody class="text-center">
+            {% include "gestiondedepotapp/templates/embal/listeembal.html" %}
+            </tbody>
+          </table>
+
+          <!-- Popup ajouter nouvelle emballage -->
+          <div class="modal fade" id="modal-embal">
+            <div class="modal-dialog">
+              <div class="modal-content"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'gestiondedepotapp/static/dist/js/modal-embal.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-embal').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Achat-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-achat %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Historique des achats</b>
+{% endblock %}
+
+{% block position2 %}
+Historique des achats
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a style="text-transform:uppercase" href="{% url 'tabledepotstock' %}" class="btn btn-outline-secondary btn-block text-bold">
+            Enrégistrer un achat dans votre panier
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+
+        <form method="post">
+            <div class="row mx-auto">
+                <div class="col-lg-3 col-12">
+                    <a href="{% url 'depotstock' %}" class="btn btn-dark text-bold" style="font-size:22px;padding:10px">
+                        retour &nbsp;&nbsp;<i class="fas fa-angle-right"></i>
+                    </a>
+                    <br><br>
+                </div>
+                <div class="col-lg-6 col-12 text-left">
+                    <!-- Date range -->
+                    <div class="form-group">
+                        <div class="input-group">
+                            {% load crispy_forms_tags %}
+                            {% csrf_token %}
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ a_form.no_facture|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    {{ a_form.requete_achat|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <div class="col-lg-3 col-12">
+                    <div class="social-auth-links">
+                        <button class="btn btn-block btn-primary" style="font-style:italic;font-size:17px" type="submit">
+                            Rechercher les achats de cette facture
+                            <br>
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </form>
+        <br><br>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">STOCKS EN COURS &nbsp; <i class="fas fa-slash"></i> &nbsp; {{gerant_site}}</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="form-row">
+                        <div class="form-group col-md-4 mb-0">
+                            Total casier emporter lors de l'achat :&nbsp;&nbsp;<br>
+                            <input class="form-group col-md-4 mb-0 text-bold text-right" disabled type="text" value="{{casier_total_emporter}}">
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            Total casier équivalent lors de l'achat :&nbsp;&nbsp;<br>
+                            <input class="form-group col-md-4 mb-0 text-bold text-right" disabled type="text" value="{{casier_equivalent.total_casier}}">
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            Casier vide :&nbsp;&nbsp;<br>
+                            <input class="form-group col-md-4 mb-0 text-bold text-right" disabled type="text" value="{{casier_total_emporter}}">
+                        </div>
+                    </div>
+                    <br>
+                    <table class="table table-bordered table-striped" id="table-achat" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Produit</th>
+                            <th>Quantité dépôt</th>
+                            <th>Montant dépôt</th>
+                            <th>Nombre casier </th>
+                            <th>Quantité restant</th>
+                            <th>Montant restant</th>
+                            <th>Nombre casier restant</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        {% if beaufort %}
+                        <tr style="font-size:18px">
+                            <td>{{beaufort}}</td>
+                            <td>{{quantitestockbeaufort}}</td>
+                            <td>{{montantstockbeaufort}}</td>
+                            <td>{{casierstockbeaufort}}</td>
+                            <td>{{quantitestockrestantbeaufort}}</td>
+                            <td>{{montantstockrestantbeaufort}}</td>
+                            <td>{{casierstockrestantbeaufort}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if awouyo %}
+                        <tr style="font-size:18px">
+                            <td>{{awouyo}}</td>
+                            <td>{{quantitestockawouyo}}</td>
+                            <td>{{montantstockawouyo}}</td>
+                            <td>{{casierstockawouyo}}</td>
+                            <td>{{quantitestockrestantawouyo}}</td>
+                            <td>{{montantstockrestantawouyo}}</td>
+                            <td>{{casierstockrestantawouyo}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if coca %}
+                        <tr style="font-size:18px">
+                            <td>{{coca}}</td>
+                            <td>{{quantitestockcoca}}</td>
+                            <td>{{montantstockcoca}}</td>
+                            <td>{{casierstockcoca}}</td>
+                            <td>{{quantitestockrestantcoca}}</td>
+                            <td>{{montantstockrestantcoca}}</td>
+                            <td>{{casierstockrestantcoca}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if fanta %}
+                        <tr style="font-size:18px">
+                            <td>{{fanta}}</td>
+                            <td>{{quantitestockfanta}}</td>
+                            <td>{{montantstockfanta}}</td>
+                            <td>{{casierstockfanta}}</td>
+                            <td>{{quantitestockrestantfanta}}</td>
+                            <td>{{montantstockrestantfanta}}</td>
+                            <td>{{casierstockrestantfanta}}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if lager %}
+                        <tr style="font-size:18px">
+                            <td>{{lager}}</td>
+                            <td>{{quantitestocklager}}</td>
+                            <td>{{montantstocklager}}</td>
+                            <td>{{casierstocklager}}</td>
+                            <td>{{quantitestockrestantlager}}</td>
+                            <td>{{montantstockrestantlager}}</td>
+                            <td>{{casierstockrestantlager}}</td>
+                        </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    <!-- Popup ajouter nouvelle categorie -->
+                    <div class="modal fade" id="modal-tabledepotstock">
+                        <div class="modal-dialog">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalachat.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-achat').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

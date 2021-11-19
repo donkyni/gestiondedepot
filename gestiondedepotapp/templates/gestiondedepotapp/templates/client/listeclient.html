@@ -1,0 +1,23 @@
+{% for client in clients %}
+<tr>
+  <td>{{client.libelleclient}}</td>
+  <td>{{client.adresse}}</td>
+  <td>{{client.contact}}</td>
+  <td>{{client.site}}</td>
+  <td>{{client.datecreation}}</td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifierclient' client.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerclient' client.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="6" style="background:lightblue;text-align:center;font-weight:700">Aucun client n'est encore enrégistrer pour le moment !</td>
+</tr>
+{% endfor %}

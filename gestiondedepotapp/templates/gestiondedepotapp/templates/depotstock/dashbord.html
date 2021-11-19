@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Achat-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-achat %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Achat de stock</b>
+{% endblock %}
+
+{% block position2 %}
+Achat de stock
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'tabledepotstock' %}" class="btn btn-outline-secondary btn-block text-bold">
+            Aller dans votre panier de stock
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+
+        <div class="row">
+            <div class="col-lg-6 col-6 "></div>
+            <div class="col-lg-6 col-6 ">
+                <!-- small box -->
+                <div class="small-box bg-success ">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count">{{quantitestockrestant}}</span></h3>
+                        <h3>QD : <span class="count">{{quantitestock}}</span></h3>
+
+                        <div class="float-right">
+                            <p>Montant restant stock : {{montantstockrestant}}</p>
+                            <p>Casier restant : {{casierstockrestant}}</p>
+                        </div>
+                        <div class="">
+                            <p>Montant stock : {{montantstock}}</p>
+                            <p>Casier stock : {{casierstock}}</p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold" style="text-transform:uppercase">Stock par site de dépôt</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-6 ">
+                <!-- small box -->
+                <div class="small-box bg-purple ">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count">{{quantitestockgmrestant}}</span></h3>
+                        <h3>QD : <span class="count">{{quantitestockgm}}</span></h3>
+
+                        <div class="float-right">
+                            <p>Montant restant stock : <span class="text-bold">{{montantstockgmrestant}}</span></p>
+                            <p>Casier restant : <span class="text-bold">{{casierstockgmrestant}}</span></p>
+                        </div>
+                        <div class="">
+                            <p>Montant stock : <span class="text-bold">{{montantstockgm}}</span></p>
+                            <p>Casier stock : <span class="text-bold">{{casierstockgm}}</span></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">GRAND MODEL (GM)</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-6 ">
+                <!-- small box -->
+                <div class="small-box bg-lightblue ">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count">{{quantitestockpmrestant}}</span></h3>
+                        <h3>QD : <span class="count">{{quantitestockpm}}</span></h3>
+
+                        <div class="float-right">
+                            <p>Montant restant stock : <span class="text-bold">{{montantstockpmrestant}}</span></p>
+                            <p>Casier restant : <span class="text-bold">{{casierstockpmrestant}}</span></p>
+                        </div>
+                        <div class="">
+                            <p>Montant stock : <span class="text-bold">{{montantstockpm}}</span></p>
+                            <p>Casier stock : <span class="text-bold">{{casierstockpm}}</span></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">PETIT MODEL (PM)</a>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button class="btn btn-block btn-outline-secondary">Grand modèle (GM)</button>
+        <br><br>
+
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantbeaufort}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockbeaufort}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantbeaufort}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantbeaufort}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockbeaufort}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockbeaufort}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{beaufort.libelleproduit}}</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantawouyo}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockawouyo}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantawouyo}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantawouyo}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockawouyo}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockawouyo}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{awouyo.libelleproduit}}</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-secondary">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantcoca}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockcoca}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantcoca}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantcoca}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockcoca}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockcoca}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{coca.libelleproduit}}</a>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <button class="btn btn-block btn-outline-secondary">Petit modèle (PM)</button>
+        <br><br>
+
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-dark">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantbeaufortpm}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockbeaufortpm}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantbeaufortpm}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantbeaufortpm}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockbeaufortpm}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockbeaufortpm}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{beaufort.libelleproduit}}</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantawouyopm}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockawouyopm}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantawouyopm}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantawouyopm}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockawouyopm}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockawouyopm}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{awouyo.libelleproduit}}</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3 class="float-right">QR : <span class="count ">{{quantitestockrestantcocapm}}</span></h3>
+                        <h3>QD : <span class="count ">{{quantitestockcocapm}}</span></h3>
+
+                        <div  class="float-right">
+                            <p>Montant restant : <b>{{montantstockrestantcocapm}}</b></p>
+                            <p>Casier restant :  <b>{{casierstockrestantcocapm}}</b></p>
+                        </div>
+                        <div>
+                            <p >Montant dépôt : <b>{{montantstockcocapm}}</b></p>
+                            <p >Casier dépôt : <b>{{casierstockcocapm}}</b></p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-bold">{{coca.libelleproduit}}</a>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+</section>
+<!-- /.content -->
+
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalachat.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-achat').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

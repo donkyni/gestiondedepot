@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Tableau de bord
+{% endblock %}
+
+{% block active-dash %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Détails concernant le site 1</b>
+{% endblock %}
+
+{% block position2 %}
+Détails concernant le site 1
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <a href="{% url 'tableaudebord' %}" style="font-size:18px" class="btn btn-outline-secondary text-bold">
+      retour
+      <i class="fas fa-angle-right"></i>
+    </a>
+    <br><br>
+
+    <div class="row">
+      <!-- start GM -->
+      <div class="col-lg-6 col-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">STOCK EN COURS &nbsp; <i class="fas fa-slash"></i> &nbsp; {{gerant_site}} - Grands Modèls</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <div class="form-row" style="color:#6c5ce7">
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      {% if gerant_site.gerantsite.sexe == "Homme" %}
+                      <i class="fas fa-male"></i>&nbsp;
+                      Gérant :&nbsp;&nbsp;
+                      {% elif gerant_site.gerantsite.sexe == "Femme" %}
+                      <i class="fas fa-female"></i>&nbsp;
+                      Gérante :&nbsp;&nbsp;
+                      {% endif %}
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{gerant_site.gerantsite}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-cash-register"></i>&nbsp;
+                      Site :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{gerant_site}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wallet"></i>
+                      Montant dépot :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{montantstockgm}}">
+                  </span>
+                </div>
+
+              </div>
+              <br>
+              <div class="form-row" style="color:#6c5ce7">
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-box-open"></i>&nbsp;
+                      Casier :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{casierstockgm}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wine-bottle"></i>&nbsp;
+                      Quantité :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{quantitestockgm}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wallet"></i>
+                      Montant Restant :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #74b9ff);border:none" disabled type="text" value="{{montantstockgmrestant}}">
+                  </span>
+                </div>
+              </div>
+              <br>
+              <table class="table table-bordered table-striped" id="table-achat" width="100%" cellspacing="0">
+                <thead>
+                <tr class="text-center" style="text-transform:uppercase">
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Montant</th>
+                  <th>Casier </th>
+                  <th>Restant</th>
+                  <th>Montant restant</th>
+                  <th>Casier restant</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% if beaufort %}
+                <tr style="font-size:18px">
+                  <td><span class="text-left">{{beaufort.libelleproduit}}</span></td>
+                  <td>{{quantitestockbeaufort}}</td>
+                  <td>{{montantstockbeaufort}}</td>
+                  <td>{{casierstockbeaufort}}</td>
+                  <td>{{quantitestockrestantbeaufort}}</td>
+                  <td>{{montantstockrestantbeaufort}}</td>
+                  <td>{{casierstockrestantbeaufort}}</td>
+                </tr>
+                {% endif %}
+
+                {% if awouyo %}
+                <tr style="font-size:18px">
+                  <td>{{awouyo.libelleproduit}}</td>
+                  <td>{{quantitestockawouyo}}</td>
+                  <td>{{montantstockawouyo}}</td>
+                  <td>{{casierstockawouyo}}</td>
+                  <td>{{quantitestockrestantawouyo}}</td>
+                  <td>{{montantstockrestantawouyo}}</td>
+                  <td>{{casierstockrestantawouyo}}</td>
+                </tr>
+                {% endif %}
+
+                {% if coca %}
+                <tr style="font-size:18px">
+                  <td>{{coca.libelleproduit}}</td>
+                  <td>{{quantitestockcoca}}</td>
+                  <td>{{montantstockcoca}}</td>
+                  <td>{{casierstockcoca}}</td>
+                  <td>{{quantitestockrestantcoca}}</td>
+                  <td>{{montantstockrestantcoca}}</td>
+                  <td>{{casierstockrestantcoca}}</td>
+                </tr>
+                {% endif %}
+
+                {% if fanta %}
+                <tr style="font-size:18px">
+                  <td>{{fanta.libelleproduit}}</td>
+                  <td>{{quantitestockfanta}}</td>
+                  <td>{{montantstockfanta}}</td>
+                  <td>{{casierstockfanta}}</td>
+                  <td>{{quantitestockrestantfanta}}</td>
+                  <td>{{montantstockrestantfanta}}</td>
+                  <td>{{casierstockrestantfanta}}</td>
+                </tr>
+                {% endif %}
+
+                {% if lager %}
+                <tr style="font-size:18px">
+                  <td>{{lager.libelleproduit}}</td>
+                  <td>{{quantitestocklager}}</td>
+                  <td>{{montantstocklager}}</td>
+                  <td>{{casierstocklager}}</td>
+                  <td>{{quantitestockrestantlager}}</td>
+                  <td>{{montantstockrestantlager}}</td>
+                  <td>{{casierstockrestantlager}}</td>
+                </tr>
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end GM -->
+
+      <!-- start PM -->
+      <div class="col-lg-6 col-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">STOCK EN COURS &nbsp; <i class="fas fa-slash"></i> &nbsp; {{gerant_site}} - Petits Modèls</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <div class="form-row" style="color:#6c5ce7">
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      {% if gerant_site.gerantsite.sexe == "Homme" %}
+                      <i class="fas fa-male"></i>&nbsp;
+                      Gérant :&nbsp;&nbsp;
+                      {% elif gerant_site.gerantsite.sexe == "Femme" %}
+                      <i class="fas fa-female"></i>&nbsp;
+                      Gérante :&nbsp;&nbsp;
+                      {% endif %}
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{gerant_site.gerantsite}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-cash-register"></i>&nbsp;
+                      Site :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{gerant_site}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wallet"></i>
+                      Total :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{montantstockpm}}">
+                  </span>
+                </div>
+
+              </div>
+              <br>
+              <div class="form-row" style="color:#6c5ce7">
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-box-open"></i>&nbsp;
+                      Casier :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{casierstockpm}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wine-bottle"></i>&nbsp;
+                      Quantité :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{quantitestockpm}}">
+                  </span>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <span class="text-bold" style="font-size:17px">
+                      <i class="fas fa-wallet"></i>
+                      Montant Restant :&nbsp;&nbsp;
+                      <input class="form-group col-md-9 mb-0 text-bold text-right" style="color:#2d3436;background:linear-gradient(#dfe6e9, #a29bfe);border:none" disabled type="text" value="{{montantstockpmrestant}}">
+                  </span>
+                </div>
+              </div>
+              <br>
+              <table class="table table-bordered table-striped" id="pm" width="100%" cellspacing="0">
+                <thead>
+                <tr class="text-center" style="text-transform:uppercase">
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Montant</th>
+                  <th>Casier </th>
+                  <th>Restant</th>
+                  <th>Montant restant</th>
+                  <th>Casier restant</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% if beaufortpm %}
+                <tr style="font-size:18px">
+                  <td>{{beaufortpm.libelleproduit}}</td>
+                  <td>{{quantitestockbeaufortpm}}</td>
+                  <td>{{montantstockbeaufortpm}}</td>
+                  <td>{{casierstockbeaufortpm}}</td>
+                  <td>{{quantitestockrestantbeaufortpm}}</td>
+                  <td>{{montantstockrestantbeaufortpm}}</td>
+                  <td>{{casierstockrestantbeaufortpm}}</td>
+                </tr>
+                {% endif %}
+
+                {% if awouyopm %}
+                <tr style="font-size:18px">
+                  <td>{{awouyopm.libelleproduit}}</td>
+                  <td>{{quantitestockawouyopm}}</td>
+                  <td>{{montantstockawouyopm}}</td>
+                  <td>{{casierstockawouyopm}}</td>
+                  <td>{{quantitestockrestantawouyopm}}</td>
+                  <td>{{montantstockrestantawouyopm}}</td>
+                  <td>{{casierstockrestantawouyopm}}</td>
+                </tr>
+                {% endif %}
+
+                {% if cocapm %}
+                <tr style="font-size:18px">
+                  <td>{{cocapm.libelleproduit}}</td>
+                  <td>{{quantitestockcocapm}}</td>
+                  <td>{{montantstockcocapm}}</td>
+                  <td>{{casierstockcocapm}}</td>
+                  <td>{{quantitestockrestantcocapm}}</td>
+                  <td>{{montantstockrestantcocapm}}</td>
+                  <td>{{casierstockrestantcocapm}}</td>
+                </tr>
+                {% endif %}
+
+                {% if fantapm %}
+                <tr style="font-size:18px">
+                  <td>{{fantapm.libelleproduit}}</td>
+                  <td>{{quantitestockfantapm}}</td>
+                  <td>{{montantstockfantapm}}</td>
+                  <td>{{casierstockfantapm}}</td>
+                  <td>{{quantitestockrestantfantapm}}</td>
+                  <td>{{montantstockrestantfantapm}}</td>
+                  <td>{{casierstockrestantfantapm}}</td>
+                </tr>
+                {% endif %}
+
+                {% if lagerpm %}
+                <tr style="font-size:18px">
+                  <td>{{lagerpm.libelleproduit}}</td>
+                  <td>{{quantitestocklagerpm}}</td>
+                  <td>{{montantstocklagerpm}}</td>
+                  <td>{{casierstocklagerpm}}</td>
+                  <td>{{quantitestockrestantlagerpm}}</td>
+                  <td>{{montantstockrestantlagerpm}}</td>
+                  <td>{{casierstockrestantlagerpm}}</td>
+                </tr>
+                {% endif %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end PM -->
+
+      <!-- start Emballage -->
+      <div class="col-lg-12 col-12">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">STOCKS D'EMBALLAGE EN COURS &nbsp; <i class="fas fa-slash"></i> &nbsp; {{gerant_site}}</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped" id="table-emballage" width="100%" cellspacing="0">
+                <thead>
+                <tr class="text-center" style="text-transform:uppercase">
+                  <th>FOURNISSEUR</th>
+                  <th>PRIX D'EMBALLAGE</th>
+                  <th>QUANTITE DEPOT</th>
+                  <th>MONTANT DEPOT</th>
+                  <th>QUANTITE UTILISE</th>
+                  <th>QUANTITE RESTANT</th>
+                  <th>MONTANT RESTANT</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% if casier12bb %}
+                <tr style="font-size:18px">
+                  <td>{{casier12bb.fournisseur}}</td>
+                  <td>{{casier12bb.parametreprixemballage}}</td>
+                  <td>{{casier12bb.quantitedepotstockemballage}}</td>
+                  <td>{{casier12bb.montantdepotstockemballage}}</td>
+                  <td>{{restant12bb}}</td>
+                  <td>{{casier12bb.quantiterestantdepotstockemballage}}</td>
+                  <td>{{casier12bb.montantrestantdepotstockemballage}}</td>
+                </tr>
+                {% endif %}
+
+                {% if casier24bb %}
+                <tr style="font-size:18px">
+                  <td>{{casier24bb.fournisseur}}</td>
+                  <td>{{casier24bb.parametreprixemballage}}</td>
+                  <td>{{casier24bb.quantitedepotstockemballage}}</td>
+                  <td>{{casier24bb.montantdepotstockemballage}}</td>
+                  <td>{{restant24bb}}</td>
+                  <td>{{casier24bb.quantiterestantdepotstockemballage}}</td>
+                  <td>{{casier24bb.montantrestantdepotstockemballage}}</td>
+                </tr>
+                {% endif %}
+
+                {% if casier12snb %}
+                <tr style="font-size:18px">
+                  <td>{{casier12snb.fournisseur}}</td>
+                  <td>{{casier12snb.parametreprixemballage}}</td>
+                  <td>{{casier12snb.quantitedepotstockemballage}}</td>
+                  <td>{{casier12snb.montantdepotstockemballage}}</td>
+                  <td>{{restant12snb}}</td>
+                  <td>{{casier12snb.quantiterestantdepotstockemballage}}</td>
+                  <td>{{casier12snb.montantrestantdepotstockemballage}}</td>
+                </tr>
+                {% endif %}
+
+                {% if casier24snb %}
+                <tr style="font-size:18px">
+                  <td>{{casier24snb.fournisseur}}</td>
+                  <td>{{casier24snb.parametreprixemballage}}</td>
+                  <td>{{casier24snb.quantitedepotstockemballage}}</td>
+                  <td>{{casier24snb.montantdepotstockemballage}}</td>
+                  <td>{{restant24snb}}</td>
+                  <td>{{casier24snb.quantiterestantdepotstockemballage}}</td>
+                  <td>{{casier24snb.montantrestantdepotstockemballage}}</td>
+                </tr>
+                {% endif %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end Emballage -->
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-param %}
+menu-open
+{% endblock %}
+
+{% block active-param %}
+active
+{% endblock %}
+
+{% block active-user %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Profils</b>
+{% endblock %}
+
+{% block position2 %}
+Utilisateur / Profils
+{% endblock %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <a type="button" class="btn btn-outline-secondary show-form mr-3" href="{% url 'utilisateur' %}">
+            <b>Retour</b>
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <button type="button" class="btn btn-primary show-form" data-url="{% url 'ajouterprofil' %}">
+            <b>Ajouter un profil &nbsp;</b>
+            <i class="fas fa-plus"></i>
+        </button>
+        <br><br>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des profil</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-active" id="table-profil" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Libelle du profil</th>
+                            <th>Date de création</th>
+                            <th class="text-center" style="width:20%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        {% include "gestiondedepotapp/templates/profil/listeprofil.html" %}
+                        </tbody>
+                        <tfoot>
+                        <tr class="text-center" style="text-transform:uppercase">
+                            <th>Libelle du profil</th>
+                            <th>Date de création</th>
+                            <th class="text-center" style="width:20%">Action</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Popup ajouter nouvelle categorie -->
+                    <div class="modal fade" id="modal-profil">
+                        <div class="modal-dialog">
+                            <div class="modal-content"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="{% static 'gestiondedepotapp/static/dist/js/modalprofil.js' %}"></script>
+
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#table-profil').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

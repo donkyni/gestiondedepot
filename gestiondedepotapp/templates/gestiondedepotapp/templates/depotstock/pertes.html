@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Achat-de-stock
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+{% endblock %}
+
+{% block open-stock %}
+menu-open
+{% endblock %}
+
+{% block active-stock %}
+active
+{% endblock %}
+
+{% block active-achat %}
+active
+{% endblock %}
+
+{% block position1 %}
+<b>Gestion des pertes</b>
+{% endblock %}
+
+{% block position2 %}
+Achat de stock &nbsp; / &nbsp; Gestion des pertes
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <a href="{% url 'depotstock' %}" class="btn btn-outline-secondary text-bold">
+            retour
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <br><br>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des pertes au cours des achats de stock</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="form-row" style="color:#b33939;">
+                                <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px;font-style:italic">
+                                {% if gerant_site.gerantsite.sexe == "Homme" %}
+                                <i class="fas fa-male"></i>&nbsp;
+                                Gérant :&nbsp;&nbsp;
+                                {% elif gerant_site.gerantsite.sexe == "Femme" %}
+                                <i class="fas fa-female"></i>&nbsp;
+                                Gérante :&nbsp;&nbsp;
+                                {% endif %}
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="font-style:italic;color:#2d3436;background:linear-gradient(#dfe6e9, #b33939);border:none" disabled type="text" value="{{request.user}}">
+                            </span>
+                                </div>
+                                <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px;font-style:italic">
+                                <i class="fas fa-cash-register"></i>&nbsp;
+                                Site :&nbsp;&nbsp;
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="font-style:italic;color:#2d3436;background:linear-gradient(#dfe6e9, #b33939);border:none" disabled type="text" value="{{gerant_site}}">
+                            </span>
+                                </div>
+                                <div class="form-group col-md-4 mb-0">
+                            <span class="text-bold" style="font-size:17px;font-style:italic">
+                                <i class="fas fa-wallet"></i>
+                                Total :&nbsp;&nbsp;
+                                <input class="form-group col-md-9 mb-0 text-bold text-right" style="font-style:italic;color:#000;background:linear-gradient(#dfe6e9, #b33939);border:none" disabled type="text" value="{{total}}">
+                            </span>
+                                </div>
+
+                            </div>
+                            <br>
+                            <table class="table table-bordered table-striped" id="perte" width="100%" cellspacing="0">
+                                <thead>
+                                <tr class="text-center" style="font-size:14px;text-transform:uppercase">
+                                    <th style="width:15%">Produit</th>
+                                    <th style="width:17%">Casier cassé</th>
+                                    <th style="width:17%">Produit cassé</th>
+                                    <th style="width:17%">Casier perdu</th>
+                                    <th style="width:17%">Produit perdu</th>
+                                    <th style="width:17%">Date d'achat</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% for perte in pertes %}
+                                <tr style="font-size:18px">
+                                    {% if perte.etat == True %}
+                                    <td class="text-left">
+                                        {% load mathfilters %}
+                                        <span class="badge badge-danger" style="font-size:13px">{{perte.parametreprixachatstockproduit.produit}}</span>
+                                        <hr>
+                                        <small style="font-style:italic;font-weight:600;font-size:14px" class="text-left">
+                                            Total à payer :
+                                            <span class="badge badge-secondary" style="font-size:14px">
+                                                {{perte.produitperdu|add:perte.produitcasse|mul:perte.parametreprixachatstockproduit.prixparametreprixachatstockproduit}}
+                                            </span> FCFA
+                                        </small>
+                                    </td>
+                                    {% endif %}
+                                    {% if perte.casierperdu > 0 %}
+                                    <td><span class="badge badge-danger">{{perte.casierperdu}}</span></td>
+                                    {% else %}
+                                    <td><span class="badge badge-success">{{perte.casierperdu}}</span></td>
+                                    {% endif %}
+                                    {% if perte.produitperdu > 0 %}
+                                    <td><span class="badge badge-danger">{{perte.produitperdu}}</span></td>
+                                    {% else %}
+                                    <td><span class="badge badge-success">{{perte.produitperdu}}</span></td>
+                                    {% endif %}
+                                    {% if perte.casiercasse > 0 %}
+                                    <td><span class="badge badge-danger">{{perte.casiercasse}}</span></td>
+                                    {% else %}
+                                    <td><span class="badge badge-success">{{perte.casiercasse}}</span></td>
+                                    {% endif %}
+
+                                    {% if perte.produitcasse > 0 %}
+                                    <td><span class="badge badge-danger">{{perte.produitcasse}}</span></td>
+                                    {% else %}
+                                    <td><span class="badge badge-success">{{perte.produitcasse}}</span></td>
+                                    {% endif %}
+                                    <td>
+                                        <small>
+                                            <b>
+                                                <i>Produit acheté </i>
+                                            </b>
+                                        </small>
+                                        <br>
+                                        <span class="badge badge-danger">
+                                            {{perte.datecreationdepotstockproduit}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6">Aucune perte n'est à signaler</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center" style="font-size:17px">Liste des remboursements</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="table-pertesrembourser" width="100%" cellspacing="0">
+                                <thead>
+                                <tr class="text-center" style="font-size:14px;text-transform:uppercase">
+                                    <th>Produit</th>
+                                    <th>Rembourser</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                {% include "gestiondedepotapp/templates/depotstock/listerembourser.html" %}
+                                </tbody>
+                            </table>
+
+                            <!-- Popup ajouter nouvelle emballage -->
+                            <div class="modal fade" id="modal-pertesrembourser">
+                                <div class="modal-dialog">
+                                    <div class="modal-content"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'gestiondedepotapp/static/dist/js/modal-pertesrembourser.js' %}"></script>
+<!-- DataTables -->
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'gestiondedepotapp/static/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
+
+<script>
+  $(function () {
+    $('#perte').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+
+  $(function () {
+    $('#table-pertesrembourser').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+{% endblock %}

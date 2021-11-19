@@ -1,0 +1,28 @@
+{% for fournisseur in fournisseurs %}
+<tr>
+  <td>
+    {% if fournisseur.libellefournisseur %}
+    {{fournisseur.libellefournisseur}}
+    {% elif fournisseur.site %}
+    {{fournisseur.site}}
+    {% endif %}
+  </td>
+  <td>{{fournisseur.adressefournisseur}}</td>
+  <td>{{fournisseur.telephonefournisseur}}</td>
+  <td>{{fournisseur.datecreationfournisseur}}</td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifierfournisseur' fournisseur.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerfournisseur' fournisseur.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="7" style="background:lightblue;text-align:center;font-weight:700">Aucun fournisseur n'est disponible pour le moment !</td>
+</tr>
+{% endfor %}

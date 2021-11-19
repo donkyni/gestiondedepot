@@ -1,0 +1,31 @@
+{% for embal in embals %}
+<tr>
+  <td>{{embal.libelleemballage}}</td>
+  <td>{{embal.format}}</td>
+  <td>{{embal.type}}</td>
+  <td>{{embal.datecreationemballage}}</td>
+  <td>{{embal.datemodificationemballage}}</td>
+  <td>
+    {% if not embal.etatemballage %}
+    <span class="badge badge-primary" style="font-size:14px">Activé</span>
+    {% endif %}
+    {% if embal.etatemballage %}
+    <span class="badge badge-danger">Désactivé</span>
+    {% endif %}
+  </td>
+  <td>
+    <button class="btn btn-warning btn-sm show-form-update" data-url="{% url 'modifierembal' embal.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Editer
+    </button>
+    <button class="btn btn-danger btn-sm show-form-delete" data-url="{% url 'supprimerembal' embal.id %}">
+      <i class="fas fa-pencil-alt"></i>
+      Supprimer
+    </button>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <td colspan="8" style="background:lightblue;text-align:center;font-weight:700">Aucun emballage n'est disponible pour le moment !</td>
+</tr>
+{% endfor %}
