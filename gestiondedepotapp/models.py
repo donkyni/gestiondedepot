@@ -27,6 +27,7 @@ class Produit(models.Model):
     formatproduit = models.CharField(choices=format, max_length=100, null=True)
     contenanceproduit = models.IntegerField(null=True)
     categorieproduit = models.ForeignKey(CategorieProduit, on_delete=models.SET_NULL, null=True)
+    fournisseur = models.ForeignKey("Fournisseur", on_delete=models.SET_NULL, null=True)
 
     # variables systemes
     datecreationproduit = models.DateTimeField(auto_now_add=True, null=True)
@@ -328,7 +329,7 @@ class PanierEmballage(models.Model):
                                                null=True,
                                                verbose_name='Prix d\'Emballage')
     quantitedepotstockemballage = models.IntegerField(null=True)
-    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
 
     # paramètres systèmes
     montantdepotstockemballage = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -471,7 +472,7 @@ class PanierStockProduit(models.Model):
                                                        null=True,
                                                        verbose_name='Produit prix')
     quantitedepotstockproduit = models.IntegerField(null=True, blank=False, verbose_name="Quantité dépot stock produit")
-    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
 
     # parametres systemes
     montantdepotstockproduit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

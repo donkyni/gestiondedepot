@@ -47,9 +47,9 @@ Panier de stock
                 <div class="card">
                     <div class="card-header text-center"><small style="font-size:15px"><b>Panier des emballages</b></small></div>
                     <div class="card-body card-block">
-                        <form action="" method="post" class="">
+                        <form method="post">
                             {% csrf_token %}
-                            {{ form|crispy }}
+                            {{form|crispy}}
                             <div class="form-actions form-group"><button type="submit" class="text-bold btn btn-block btn-primary">
                                 Enrégistrer les informations &nbsp;&nbsp; <i class="fas fa-table"></i></button>
                             </div>

@@ -1148,11 +1148,7 @@ def ajoutersite(request):
 
     context = {'sites': sites}
 
-    if request.method == 'POST':
-        form = SiteForm(request.POST)
-    else:
-        form = SiteForm()
-
+    form = SiteForm(request.POST) if request.method == 'POST' else SiteForm()
     return save_all(request, form, 'gestiondedepotapp/templates/site/ajoutersite.html',
                     'site', 'gestiondedepotapp/templates/site/listesite.html', context)
 
@@ -1208,11 +1204,7 @@ def ajouterproduit(request):
 
     context = {'produits': produits}
 
-    if request.method == 'POST':
-        form = ProduitForm(request.POST)
-    else:
-        form = ProduitForm()
-
+    form = ProduitForm(request.POST) if request.method == 'POST' else ProduitForm()
     return save_all(request, form, 'gestiondedepotapp/templates/produit/ajouterproduit.html',
                     'produit', 'gestiondedepotapp/templates/produit/listeproduit.html', context)
 
@@ -1310,8 +1302,8 @@ def supprimerparamprixproduit(request, id):
         context = {
             'paramprixproduit': paramprixproduit,
         }
-        data['html_form'] = render_to_string('gestiondedepotapp/templates/paramprixproduit/supprimerparamprixproduit'
-                                             '.html', context,
+        data['html_form'] = render_to_string('gestiondedepotapp/templates/paramprixproduit/supprimerparamprixproduit.html',
+                                             context,
                                              request=request)
 
     return JsonResponse(data)
@@ -1503,11 +1495,7 @@ def ajouterdroit(request):
 
     context = {'droits': droits}
 
-    if request.method == 'POST':
-        form = DroitsForm(request.POST)
-    else:
-        form = DroitsForm()
-
+    form = DroitsForm(request.POST) if request.method == 'POST' else DroitsForm()
     return save_all(request, form, 'gestiondedepotapp/templates/droit/ajouterdroit.html',
                     'droit', 'gestiondedepotapp/templates/droit/listedroit.html', context)
 
@@ -1563,11 +1551,7 @@ def ajouterprofil(request):
 
     context = {'profils': profils}
 
-    if request.method == 'POST':
-        form = ProfilsForm(request.POST)
-    else:
-        form = ProfilsForm()
-
+    form = ProfilsForm(request.POST) if request.method == 'POST' else ProfilsForm()
     return save_all(request, form, 'gestiondedepotapp/templates/profil/ajouterprofil.html',
                     'profil', 'gestiondedepotapp/templates/profil/listeprofil.html', context)
 
@@ -2046,7 +2030,6 @@ def pertes(request):
 @login_required()
 def pertesrembourser(request, id):
     gerant_site = get_object_or_404(Site, gerantsite=request.user)
-    data = dict()
     remboursement = get_object_or_404(RemboursementPoduit, id=id)
     reste = 0.00
     if request.method == "POST":
@@ -2103,6 +2086,8 @@ def pertesrembourser(request, id):
 def panierdepot(request):
     total = 0
     gerant_site = get_object_or_404(Site, gerantsite=request.user)
+    site = gerant_site.libellesite
+    site_html = gerant_site.libellesite
     paniers = PanierStockProduit.objects.filter(site=gerant_site, etatdepotstockproduit=False)
 
     if request.method == 'POST':
@@ -2114,10 +2099,11 @@ def panierdepot(request):
         u_form = CountForm()
 
     if request.method == 'POST':
-        form = PanierStockProduitForm(request.POST)
+        form = PanierStockProduitForm(request.POST, initial={'site': site})
         if form.is_valid():
             systeme = form.save(commit=False)
 
+            systeme.site = gerant_site
             produit = systeme.parametreprixachatstockproduit.id
             param_prix = get_object_or_404(ParametrePrixAchatStockProduit, id=produit)
             prix = param_prix.prixparametreprixachatstockproduit
@@ -2148,7 +2134,7 @@ def panierdepot(request):
 
         return redirect('panierdepot')
     else:
-        form = PanierStockProduitForm()
+        form = PanierStockProduitForm(initial={'site': site})
 
         paniers = PanierStockProduit.objects.filter(site=gerant_site, etatdepotstockproduit=False)
         for panier in paniers:
@@ -2797,9 +2783,14 @@ def supprimerparamembal(request, id):
 @login_required
 def panieremaballage(request):
     gerant_site = get_object_or_404(Site, gerantsite=request.user)
+    print(gerant_site)
+    site = gerant_site.libellesite
+    site_html = gerant_site.libellesite
+
     paniers = PanierEmballage.objects.filter(etatdepotstockemballage=False, site=gerant_site)
+
     if request.method == 'POST':
-        form = PanierEmballageForm(request.POST)
+        form = PanierEmballageForm(request.POST, initial={"site": gerant_site})
         if form.is_valid():
             systeme = form.save(commit=False)
 
@@ -2808,6 +2799,7 @@ def panieremaballage(request):
             prix = param_prix.prixparametreprixemballage
             quantite = systeme.quantitedepotstockemballage
 
+            systeme.site = gerant_site
             systeme.quantiterestantdepotstockemballage = systeme.quantitedepotstockemballage
             systeme.montantdepotstockemballage = float(quantite * prix)
             systeme.montantrestantdepotstockemballage = float(systeme.quantiterestantdepotstockemballage * prix)
@@ -2818,11 +2810,13 @@ def panieremaballage(request):
 
             return redirect('panieremballage')
     else:
-        form = PanierEmballageForm()
+        form = PanierEmballageForm(initial={"site": gerant_site})
 
     context = {
         'form': form,
         'paniers': paniers,
+        'site_html': site_html,
+        'gerant_site': gerant_site
     }
     return render(request, 'gestiondedepotapp/templates/emballage/panier/panier.html', context)
 
@@ -3052,11 +3046,7 @@ def ajouterclient(request):
 
     context = {'clients': clients}
 
-    if request.method == 'POST':
-        form = ClientForm(request.POST)
-    else:
-        form = ClientForm()
-
+    form = ClientForm(request.POST) if request.method == 'POST' else ClientForm()
     return save_all(request, form, 'gestiondedepotapp/templates/client/ajouterclient.html',
                     'client', 'gestiondedepotapp/templates/client/listeclient.html', context)
 

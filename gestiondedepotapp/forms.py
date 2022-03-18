@@ -28,7 +28,7 @@ class CategorieProduitForm(forms.ModelForm):
 class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
-        fields = ('libelleproduit', 'formatproduit', 'contenanceproduit', 'categorieproduit',)
+        fields = ('libelleproduit', 'formatproduit', 'contenanceproduit', 'categorieproduit', 'fournisseur')
 
         widgets = {
             'libelleproduit': forms.TextInput(attrs={'class': 'form-control'}),
@@ -215,7 +215,7 @@ class PanierEmballageForm(forms.ModelForm):
         widgets = {
             'fournisseur': forms.Select(attrs={'class': 'form-control'}),
             'parametreprixemballage': forms.Select(attrs={'class': 'form-control'}),
-            'site': forms.Select(attrs={'class': 'form-control'}),
+            'site': forms.Select(attrs={'class': 'form-control', 'disabled': 'disabled'}),
         }
 
 

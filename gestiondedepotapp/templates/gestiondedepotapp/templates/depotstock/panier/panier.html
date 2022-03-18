@@ -107,7 +107,10 @@ Panier des dépots
                                     {{ form.quantitedepotstockproduit|as_crispy_field }}
                                 </div>
                                 <div class="form-group col-md-6 mb-0">
-                                    {{ form.site|as_crispy_field }}
+                                    <span hidden>{{ form.site|as_crispy_field }}</span>
+
+                                    <label for="site_html">Site*</label>
+                                    <input class="form-control col-12 text-bold" id="site_html" type="text" value="{{site_html}} / {{gerant_site.gerantsite}}" readonly>
                                 </div>
                             </div>
                             <div class="form-row">
