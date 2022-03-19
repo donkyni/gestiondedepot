@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.messages import constants as messages
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
@@ -12,7 +13,7 @@ from gestiondedepotapp.forms import CategorieProduitForm, SiteForm, ProduitForm,
 from gestiondedepotapp.models import CategorieProduit, Site, Produit, ParametrePrixAchatStockProduit, Fournisseur, \
     DepotStockProduit, User, Droits, Profils, PanierEmballage, DepotStockEmballage, ParametrePrixEmballage, Emballage, \
     PanierStockProduit, TotalEmballage, Count, Countwo, HistoriquesDesAchats, RemboursementPoduit, Client, \
-    ParamPrixProduitVente, PanierVente
+    ParamPrixProduitVente, PanierVente, RecupererFacture
 
 
 @login_required
@@ -2084,11 +2085,19 @@ def pertesrembourser(request, id):
 
 @login_required
 def panierdepot(request):
+    show_box_bb = ""
+    show_box_bb = ""
     total = 0
     gerant_site = get_object_or_404(Site, gerantsite=request.user)
     site = gerant_site.libellesite
     site_html = gerant_site.libellesite
     paniers = PanierStockProduit.objects.filter(site=gerant_site, etatdepotstockproduit=False)
+    counters = Count.objects.filter(etat=False).exists()
+    counts = Count.objects.filter(etat=False)
+    print(counters)
+
+
+    facture = RecupererFacture() # pour pouvoir agir de maniere automatique sur les factures
 
     if request.method == 'POST':
         u_form = CountForm(request.POST)
@@ -2115,10 +2124,21 @@ def panierdepot(request):
             elif formatproduit == "GM":
                 systeme.nombrecasierequivalentdepotstockproduit = quantite / 12
 
-            if systeme.fournisseur.libellefournisseur == "BB":
-                systeme.no_facture += '_BB'
-            elif systeme.fournisseur.libellefournisseur == "SNB":
-                systeme.no_facture += '_SNB'
+            """ ERREUR : A REVOIR  !"""
+            if systeme.no_facture is not None:
+                if systeme.fournisseur.libellefournisseur == "BB":
+                    systeme.no_facture += '_BB'
+                    facture.recup_facture_bb = systeme.no_facture
+                elif systeme.fournisseur.libellefournisseur == "SNB":
+                    systeme.no_facture += '_SNB'
+                    facture.recup_facture_snb = systeme.no_facture
+            elif systeme.no_facture is None and RecupererFacture.objects.all().exists():
+                facture = get_object_or_404(RecupererFacture)
+                if systeme.fournisseur.libellefournisseur == "BB":
+                    systeme.no_facture = facture.recup_facture_bb
+                elif systeme.fournisseur.libellefournisseur == "SNB":
+                    systeme.no_facture = facture.recup_facture_snb
+            """ FIN ERREUR """
 
             systeme.nombrecasierequivalentrestantdepotstockproduit = systeme.nombrecasierequivalentdepotstockproduit
 
@@ -2128,7 +2148,9 @@ def panierdepot(request):
 
             systeme.datemodificationdepotstockproduit = datetime.now()
 
+            facture.save()
             systeme.save()
+
         for panier in paniers:
             total += panier.montantdepotstockproduit
 
@@ -2192,24 +2214,32 @@ def tabledepotstock(request):
             if casier12bb.bb_12 is not None:
                 casier12bb.bb_12 = counter.bb_12
             casier12bb.save()
+        elif counter.bb_12 is None:
+            counter.delete()
 
         if counter.bb_24 is not None:
             casier24bb.quantiterestantdepotstockemballage -= counter.bb_24
             if casier24bb.bb_24 is not None:
                 casier24bb.bb_24 = counter.bb_24
             casier24bb.save()
+        elif counter.bb_24 is None:
+            counter.delete()
 
         if counter.snb_12 is not None:
             casier12snb.quantiterestantdepotstockemballage -= counter.snb_12
             if casier12snb.snb_12 is not None:
                 casier12snb.snb_12 = counter.snb_12
             casier12snb.save()
+        elif counter.snb_12 is None:
+            counter.delete()
 
         if counter.snb_24 is not None:
             casier24snb.quantiterestantdepotstockemballage -= counter.snb_24
             if casier24snb.snb_24 is not None:
                 casier24snb.snb_24 = counter.snb_24
             casier24snb.save()
+        elif counter.snb_24 is None:
+            counter.delete()
 
         counter.delete()
 

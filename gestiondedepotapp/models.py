@@ -464,6 +464,21 @@ class HistoriquesDesAchats(models.Model):
     date_achat = models.DateField(null=True)
 
 
+class Facture(models.Model):
+    factures = models.ManyToManyField("DepotStockProduit", related_name="Factures",
+                                      blank=True, verbose_name='Numéro de facture')
+    date = models.DateField(auto_now_add=True, null=True)
+
+
+class RecupererFacture(models.Model):
+    recup_facture_bb = models.CharField(max_length=15, null=True, blank=True, verbose_name='Numéro de facture pour BB')
+    recup_facture_snb = models.CharField(max_length=15, null=True, blank=True, verbose_name='Numéro de facture pour SNB')
+    date = models.DateField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.recup_facture
+
+
 class PanierStockProduit(models.Model):
     no_facture = models.CharField(max_length=15, null=True, blank=True, verbose_name='Numéro de facture')
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, null=True)
@@ -588,8 +603,10 @@ class VenteProduit(models.Model):
     paramprixproduitvente = models.ForeignKey(ParamPrixProduitVente, on_delete=models.SET_NULL, null=True)
     quantitevendu = models.IntegerField(null=True, verbose_name='Quantité vendu')
     casier = models.IntegerField(null=True, default=0, blank=True)
-    montantvendu = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant vendu', blank=True)
-    montantarrondi = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant arrondi', blank=True)
+    montantvendu = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant vendu',
+                                       blank=True)
+    montantarrondi = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant arrondi',
+                                         blank=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True,
                                verbose_name='Client régulier')
     acheteur = models.CharField(max_length=100, null=True, blank=True, verbose_name='Client particulier')
@@ -617,8 +634,10 @@ class PanierVente(models.Model):
     paramprixproduitvente = models.ForeignKey(ParamPrixProduitVente, on_delete=models.SET_NULL, null=True)
     quantitevendu = models.IntegerField(null=True, verbose_name='Quantité vendu')
     casier = models.IntegerField(null=True, default=0, blank=True)
-    montantvendu = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant vendu', blank=True)
-    montantarrondi = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant arrondi', blank=True)
+    montantvendu = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant vendu',
+                                       blank=True)
+    montantarrondi = models.DecimalField(decimal_places=2, max_digits=15, null=True, verbose_name='Montant arrondi',
+                                         blank=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True,
                                verbose_name='Client régulier')
     acheteur = models.CharField(max_length=100, null=True, blank=True, verbose_name='Client particulier')

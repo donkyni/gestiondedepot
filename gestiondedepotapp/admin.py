@@ -7,7 +7,7 @@ from gestiondedepotapp.models import CategorieProduit, Produit, Fournisseur, Par
     DepotStockProduit, User, Site, Droits, Profils, DroitsProfils, Emballage, PanierEmballage, DepotStockEmballage, \
     ParametrePrixEmballage, PanierStockProduit, TotalEmballage, Count, Countwo, HistoriquesDesAchats, \
     RemboursementPoduit, ParamPrixProduitVente, Client, VenteProduit, RetournerEmballage, PanierVente, \
-    TotalDepotStockProduit
+    TotalDepotStockProduit, RecupererFacture
 
 
 class CategorieProduitAdmin(admin.ModelAdmin):
@@ -278,6 +278,16 @@ class TotalEmballageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(TotalEmballage, TotalEmballageAdmin)
+
+
+class RecupererFactureAdmin(admin.ModelAdmin):
+    list_display = ('recup_facture_bb', 'recup_facture_bb')
+    list_filter = ('date',)
+    ordering = ('date',)
+    search_fields = ('date',)
+
+
+admin.site.register(RecupererFacture, RecupererFactureAdmin)
 
 
 class CountAdmin(admin.ModelAdmin):

@@ -45,6 +45,7 @@ Panier des dépots
         <br><br>
         <div class="row">
             <div class="col-lg-12 col-12">
+                {% if not counters %}
                 <div class="card">
                     <div class="card-header text-center text-bold">
                         <span class="">Enrégistrer le nombre total de casier emporter pour l'achat</span>
@@ -53,33 +54,103 @@ Panier des dépots
                     <div class="card-body card-block">
                         <form method="post" style="font-size:15px;color:#130f40">
                             {% csrf_token %}
-                            <div class="form-row">
-                                <div class="form-group col-md-6 mb-0">
-                                    {{ u_form.bb_12|as_crispy_field }}
-                                </div>
-                                <div class="form-group col-md-6 mb-0">
-                                    {{ u_form.bb_24|as_crispy_field }}
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6 mb-0">
-                                    {{ u_form.snb_12|as_crispy_field }}
-                                </div>
-                                <div class="form-group col-md-6 mb-0">
-                                    {{ u_form.snb_24|as_crispy_field }}
-                                </div>
-                            </div>
                             <div class="row">
-                                <div class="form-actions form-group col-6"></div>
+                                <div class="col-6">
+                                    <div class="card card-primary">
+                                        <div class="card-header text-center">
+                                            <span style="font-weight:700; font-size:20px">CASIER BB</span>
+                                        </div>
+                                        <div class="card-body card-block">
+                                            <div class="form-group col-md-12 mb-0">
+                                                {{ u_form.bb_12|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-12 mb-0">
+                                                {{ u_form.bb_24|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card card-primary">
+                                        <div class="card-header text-center">
+                                            <span style="font-weight:700; font-size:20px">CASIER SNB</span>
+                                        </div>
+                                        <div class="card-body card-block">
+                                            <div class="form-group col-md-12 mb-0">
+                                                {{ u_form.snb_12|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-12 mb-0">
+                                                {{ u_form.snb_24|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="form-actions form-group col-3"></div>
                                 <div class="form-actions form-group col-6">
                                     <button type="submit" class="text-bold btn btn-block btn-info">
                                         Enrégistrer les informations &nbsp;&nbsp; <i class="fas fa-table"></i>
                                     </button>
                                 </div>
+                                <div class="form-actions form-group col-3"></div>
                             </div>
                         </form>
                     </div>
                 </div>
+                {% else %}
+                <div class="card">
+                    <div class="card-header text-center text-bold">
+                        <span class="">Nombre total de casier emporter par format PM/GM</span>
+                    </div>
+                    <div class="card-body card-block">
+                        <form method="post" style="font-size:15px;color:#130f40">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for counter in counts %}
+                                {% if counter.bb_12 is not None %}
+                                <div class="col-6">
+                                    <div class="card card-info">
+                                        <div class="card-header text-center">
+                                            <span style="font-weight:700; font-size:20px">TOTAL CASIER BB</span>
+                                        </div>
+                                        <div class="card-body card-block">
+                                            <div class="form-group col-md-12 mb-0">
+                                                <label for="casier12bb" style="font-size:18px;font-weight:600;text-transform:uppercase">Casier de 12</label>
+                                                <input id="casier12bb" class="form-control text-right" disabled style="font-size:20px;font-weight:600;font-style:italic" type="text" value="{{ counter.bb_12 }} casiers de BB">
+                                            </div>
+                                            <div class="form-group col-md-12 mb-0">
+                                                <label for="casier24bb" style="font-size:18px;font-weight:600;text-transform:uppercase">Casier de 24</label>
+                                                <input id="casier24bb" class="form-control text-right" disabled style="font-size:20px;font-weight:600;font-style:italic" type="text" value="{{ counter.bb_24 }} casiers de BB">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card card-info">
+                                        <div class="card-header text-center">
+                                            <span style="font-weight:700; font-size:20px">TOTAL CASIER SNB</span>
+                                        </div>
+                                        <div class="card-body card-block">
+                                            <div class="form-group col-md-12 mb-0">
+                                                <label for="casier12snb" style="font-size:18px;font-weight:600;text-transform:uppercase">Casier de 12</label>
+                                                <input id="casier12snb" class="form-control text-right" disabled style="font-size:20px;font-weight:600;font-style:italic" type="text" value="{{ counter.snb_12 }} casiers de SNB">
+                                            </div>
+                                            <div class="form-group col-md-12 mb-0">
+                                                <label for="casier24snb" style="font-size:18px;font-weight:600;text-transform:uppercase">Casier de 24</label>
+                                                <input id="casier24snb" class="form-control text-right" disabled style="font-size:20px;font-weight:600;font-style:italic" type="text" value="{{ counter.snb_24 }} casiers de SNB">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             <div class="col-lg-5 col-12">
                 <div class="card">
@@ -87,6 +158,21 @@ Panier des dépots
                     <div class="card-body card-block">
                         <form method="post">
                             {% csrf_token %}
+
+                            <!--
+                            <div class=" text-center col-lg-12 alert alert-danger">
+                                <b>
+                                    <a class="btn btn-dark btn-sm close" href="#" data-dismiss="alert">×</a>
+                                    <span>Entrer le numero de la facture !</span>
+                                </b>
+                            </div>
+                            <div class="  col-lg-12 alert alert-success">
+                                <b>
+                                    <a class="btn btn-dark btn-sm close mb-3" href="#" data-dismiss="alert">×</a>
+                                    <span>No Facture saisi !</span>
+                                </b>
+                            </div>
+                            -->
 
                             <div class="form-row">
                                 <div class="form-group col-md-6 mb-0"></div>
